@@ -1,6 +1,7 @@
 const endpoints = {
     'signup': `/signup`,
-    'signin': `/signin`
+    'signin': `/signin`,
+    'products': `/products`
 }
 
 export const getUrl = ({ mappingKey, urlParams = {} }) => {

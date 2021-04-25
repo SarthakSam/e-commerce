@@ -25,7 +25,7 @@ export function Signup() {
         apiCall('post', (res) => {
             setUser(res.data.user);
             console.log(res.data);
-            navigate(state?.from? state.from : '/home' );
+            navigate(state?.from? state.from : '/' );
             showNotification({ type: 'SUCCESS', message: res.data.message});
         }, (err) => {
             showNotification({ type: 'ERROR', message: err});

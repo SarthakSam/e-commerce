@@ -3,7 +3,8 @@ const express           = require('express'),
       mongoose          = require('mongoose'),
       cors              = require('cors'),
       productsRouter    = require('./apis/products.api'),
-      usersRouter       = require('./apis/user.api');
+      usersRouter       = require('./apis/user.api'),
+      seedProducts      = require('./seeds');
 
 const PORT = process.env.PORT || 3001;
 
@@ -12,7 +13,7 @@ const localDb = 'mongodb://localhost:27017/ecommerce';
 mongoose.connect(localDb, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {
     console.log("DB connected")
-    // seedVideos();
+    // seedProducts();
 })
 .catch(console.log);
 
