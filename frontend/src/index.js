@@ -3,10 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
+import { AuthProvider } from './contexts/auth-context';
+import { LoaderProvider } from './contexts/loader-context';
+import { NotificationsProvider } from './contexts/notifications-context';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <AuthProvider>
+        <LoaderProvider>
+          <NotificationsProvider>
+            <App />      
+          </NotificationsProvider>
+        </LoaderProvider>
+      </AuthProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

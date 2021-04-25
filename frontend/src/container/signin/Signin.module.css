@@ -1,0 +1,24 @@
+.form__container {
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    /* margin-top: -2em; */
+}
+
+.form {
+    border: 1px solid var(--color-grey);
+    padding: var(--padding-1);
+    border-radius: var(--padding-point5);
+
+}
+
+.title {
+    text-align: center
+}
+
+.signin {
+    float: right;
+    padding-left: 2em;
+    padding-right: 2em;
+    /* margin-left: auto; */
+}

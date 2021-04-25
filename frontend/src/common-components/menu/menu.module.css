@@ -1,0 +1,31 @@
+.dropdown {
+    display: inline;
+    width: max-content;
+}
+
+.dropdown__toggle {
+    background: inherit;
+    cursor: pointer;
+    padding: 0.2em;
+    border: none;
+}
+
+/* .dropdown__toggle:focus ~ .dropdown__menu{
+    opacity: 1;
+} */
+
+.dropdown__toggle::after {
+    display: none;
+}
+
+.dropdown__menu {
+    list-style: none;
+    width: max-content;
+    display: flex;
+    /* opacity: 0; */
+    left: -150px;
+}
+
+.dropdown__item {
+    cursor: pointer;
+}
