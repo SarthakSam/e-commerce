@@ -2,7 +2,8 @@ const express           = require('express'),
       app               = express(),
       mongoose          = require('mongoose'),
       cors              = require('cors'),
-      productsRouter    = require('./apis/products.api');
+      productsRouter    = require('./apis/products.api'),
+      usersRouter       = require('./apis/user.api');
 
 const PORT = process.env.PORT || 3001;
 
@@ -18,6 +19,7 @@ mongoose.connect(localDb, {useNewUrlParser: true, useUnifiedTopology: true})
 app.use(cors());
 app.use(express.json());
 
+app.use('/', usersRouter);
 app.use('/products', productsRouter);
 
 app.get('/', (req, res) => {

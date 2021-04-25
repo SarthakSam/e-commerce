@@ -10,11 +10,11 @@ router.post('/signup', async (req, res) => {
     if( password1 !== password2 ) {
         return res.status(500).json({ error: 'Passwords doesnt match' });
     }
-    // if ( ( await User.find( { usernamme } ) ) ) {
+    // if ( ( await User.findOne( { usernamme } ) ) ) {
     //     return res.status(500).json({ error: 'User with this username already exists' });
     // }
     try {
-        const user = User.create({ username, password: password1 })
+        const user = await User.create({ username, password: password1 })
         if(!user) {
             return res.status(500).json({ error: 'Error while creating new user' });
         }
@@ -31,15 +31,17 @@ router.post('/signin', async (req, res) => {
         return res.status(500).json({ error: 'Please enter all the required fields' });
     }
     try {
-        const user = User.find({ username });
+        const user = await User.findOne({ username });
         if(!user) {
-            res.status(500).json({ error: 'No such user exists' });
+            return res.status(404).json({ error: 'No such user exists' });
         }
         if(user.password !== password) 
-            return res.send(500).json({ error: 'Password incorrect' });
+            return res.status(403).json({ error: 'Password incorrect' });
         res.status(200).json({ message: 'success', user: { username: user.username, _id: user._id } });
     } catch(err) {
         console.log(err);
         res.status(500).json({error: err});
     }
 });
+
+module.exports = router;
