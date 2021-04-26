@@ -9,6 +9,7 @@ import {
 import { AuthProvider } from './contexts/auth-context';
 import { LoaderProvider } from './contexts/loader-context';
 import { NotificationsProvider } from './contexts/notifications-context';
+import { StoreProvider } from './contexts/store.context';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.render(
       <AuthProvider>
         <LoaderProvider>
           <NotificationsProvider>
-            <App />      
+            <StoreProvider>
+              <App />      
+            </StoreProvider>
           </NotificationsProvider>
         </LoaderProvider>
       </AuthProvider>
