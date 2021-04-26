@@ -6,7 +6,7 @@ const userSchema = new Schema({
     password: { type: String, required: 'Password is mandatory' },
     email: { type: String },
     wishlist: [ { type: Schema.Types.ObjectId, ref: 'product' } ],
-    cart: [ { type: Schema.Types.ObjectId, ref: 'ProductQuantityMapping' } ]
+    cart: [ { type: Schema.Types.ObjectId, ref: 'productQuantity' } ]
 } , { timestamps: true })
 
 const User = model('user', userSchema);

@@ -1,7 +1,8 @@
 const express           = require('express'),
       router            = express.Router(),
       isAuthenticated   = require('../middlewares/isAuthenticated'),
-      Product           = require('../models/product.model');
+      Product           = require('../models/product.model'),
+      ProductQuantity = require('../models/product-quantity.model');
 
 router.get('/', async (req, res) => {
     try {
@@ -60,6 +61,60 @@ router.delete('/:id/wishlisted', isAuthenticated, async (req, res) => {
          res.status(500).json({ error: err });
     }
 });
+
+router.get('/cart', isAuthenticated, async (req, res) => {
+    const user = req.user;
+    try {
+         const cart = (await user.populate({ path: 'cart', populate: { path: 'product' } }).execPopulate()).cart;
+         res.status(200).json({ message: 'success', cart });
+    } catch(err) {
+        console.log(err);
+         res.status(500).json({ error: err });
+    }
+});
+
+router.post('/:id/cart', isAuthenticated, async (req, res) => {
+    const user = req.user;
+    const productToBeAdded = req.product;
+    try {
+        const cart = (await user.populate('cart').execPopulate()).cart;
+        const productInCart = cart.find( ({ product }) => product.equals(productToBeAdded._id) );
+        if(productInCart) {
+            productInCart.quantity++;
+            await productInCart.save();
+        } else {
+            const newProduct = await ProductQuantity.create({ product: productToBeAdded });
+            user.cart.push(newProduct);
+            await user.save();
+        }
+        return res.status(201).json({ message: 'Product removed from cart', product: productToBeAdded });
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+})
+
+router.delete('/:id/cart', isAuthenticated, async (req, res) => {
+    const user = req.user;
+    const productToBeRemoved = req.product;
+    try {
+        const cart = (await user.populate('cart').execPopulate()).cart;
+        const productInCart = cart.find( ({ product }) => product.equals(productToBeRemoved._id) );
+        if(productInCart.quantity === 1) {
+            user.cart = user.cart.filter( product => !product.equals(productToBeRemoved._id) );
+            const promises = [user.save(), productInCart.remove()];
+            await Promise.all(promises);
+        } else {
+            productInCart.quantity--;
+            await productInCart.save();
+        }
+        return res.status(201).json({ message: 'Product added to cart', product: productToBeRemoved });
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+})
+
 
 router.param('id', async (req, res, next, id) => {
     const productId = req.params.id;
