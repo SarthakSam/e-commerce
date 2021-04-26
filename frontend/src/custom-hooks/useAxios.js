@@ -4,7 +4,7 @@ import { getUrl } from '../api.config';
 
 // const baseURL = "https://stream-itt.herokuapp.com";
 
-export function UseAxios() {
+export function useAxios() {
     const { setLoading } = useLoader();
 
     const apiCall = async (method, successCb, failureCb, urlObj, ...rest) => {

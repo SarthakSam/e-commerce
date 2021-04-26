@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { useAuth } from '../../contexts/auth-context';
 import styles from './Signup.module.css';
-import { UseAxios } from '../../custom-hooks/useAxios';
+import { useAxios } from '../../custom-hooks/useAxios';
 import { useNotifications } from '../../contexts/notifications-context';
 
 export function Signup() {
@@ -13,7 +13,7 @@ export function Signup() {
     const [password1, setpassword1] = useState("");
     const [password2, setpassword2] = useState("");
     const navigate = useNavigate();
-    const apiCall = UseAxios();
+    const apiCall = useAxios();
     const {showNotification} = useNotifications();
 
     const signup = (event) => {

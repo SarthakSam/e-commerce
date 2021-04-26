@@ -1,25 +1,24 @@
 
 import { useEffect, useState } from 'react';
 import { Product } from './product/Product';
-import { UseAxios } from '../../custom-hooks/useAxios';
+import { useAxios } from '../../custom-hooks/useAxios';
 import { useNotifications } from '../../contexts/notifications-context';
 
 export function ProductListing() {
 
     const [products, setProducts] = useState([]);
-    const apiCall = UseAxios();
+    const apiCall = useAxios();
     const { showNotification } = useNotifications();
 
-    const getProducts = async () => {
-        apiCall('get', (res) => {
-            setProducts(res.data.products);
-        }, (err) => {
-            console.log(err);
-            showNotification({ type: 'ERROR', message: err })
-        }, { mappingKey: 'products' } );
-    }
-
     useEffect( () => {
+        const getProducts = async () => {
+            apiCall('get', (res) => {
+                setProducts(res.data.products);
+            }, (err) => {
+                console.log(err);
+                showNotification({ type: 'ERROR', message: err })
+            }, { mappingKey: 'getProducts' } );
+        }
         getProducts();
     }, []);
 
