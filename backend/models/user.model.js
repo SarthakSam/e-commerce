@@ -5,7 +5,7 @@ const userSchema = new Schema({
     username: { type: String, required: 'Username is mandatory', unique: 'This username already exists. Please choose a unique username' },
     password: { type: String, required: 'Password is mandatory' },
     email: { type: String },
-    wishlist: [ { type: Schema.Types.ObjectId, ref: 'Product' } ],
+    wishlist: [ { type: Schema.Types.ObjectId, ref: 'product' } ],
     cart: [ { type: Schema.Types.ObjectId, ref: 'ProductQuantityMapping' } ]
 } , { timestamps: true })
 
