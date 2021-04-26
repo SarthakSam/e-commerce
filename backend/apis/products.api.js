@@ -78,16 +78,16 @@ router.post('/:id/cart', isAuthenticated, async (req, res) => {
     const productToBeAdded = req.product;
     try {
         const cart = (await user.populate('cart').execPopulate()).cart;
-        const productInCart = cart.find( ({ product }) => product.equals(productToBeAdded._id) );
+        let productInCart = cart.find( ({ product }) => product.equals(productToBeAdded._id) );
         if(productInCart) {
             productInCart.quantity++;
             await productInCart.save();
         } else {
-            const newProduct = await ProductQuantity.create({ product: productToBeAdded });
-            user.cart.push(newProduct);
+            productInCart = await ProductQuantity.create({ product: productToBeAdded });
+            user.cart.push(productInCart);
             await user.save();
         }
-        return res.status(201).json({ message: 'Product removed from cart', product: productToBeAdded });
+        return res.status(201).json({ message: 'Product removed from cart', cart });
     } catch(err) {
         console.log(err);
         return res.status(500).json({ error: err });
@@ -108,7 +108,7 @@ router.delete('/:id/cart', isAuthenticated, async (req, res) => {
             productInCart.quantity--;
             await productInCart.save();
         }
-        return res.status(201).json({ message: 'Product added to cart', product: productToBeRemoved });
+        return res.status(201).json({ message: 'Product added to cart', cart });
     } catch(err) {
         console.log(err);
         return res.status(500).json({ error: err });
