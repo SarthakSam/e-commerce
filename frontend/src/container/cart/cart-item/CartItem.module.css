@@ -1,0 +1,14 @@
+.quantityBtn {
+    padding: 0.5em;
+    border-radius: 50%;
+    margin: 0.5em 0.5em 0 0.5em;
+    border: none;
+    color: white;
+}
+
+.totalContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}

@@ -1,5 +1,18 @@
 .container {
     overflow-y: scroll;
     height: calc(100vh - 50px);
-    padding: 1em 0;
+    padding: 1em 5em;
+    /* margin: auto; */
+}
+
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 1em 2em;
+    }
+}
+
+@media screen and (max-width: 865px) {
+    .container {
+        padding: 1em 0;
+    }
 }

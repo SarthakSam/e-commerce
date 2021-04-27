@@ -7,7 +7,7 @@ import styles from './Product.module.css';
 import { useStore } from '../../../contexts/store.context';
 import { useAuth } from '../../../contexts/auth-context';
 import { useAxios } from '../../../custom-hooks/useAxios';
-import { RemoveFromWishlist, AddToWishlist } from '../../../actions';
+import { RemoveFromWishlist, AddToWishlist, InitializeCart } from '../../../actions';
 import { useNotifications } from '../../../contexts/notifications-context';
 
 export function Product( { product } ) {
@@ -33,7 +33,7 @@ export function Product( { product } ) {
             setIsWishlisted(true);
             showNotification({ type: 'SUCCESS', message: 'Product added to wishlist' });
         }, err => {
-            showNotification({ type: 'ERROR', message: err })
+            showNotification({ type: 'ERROR', message: 'Unable to process your request at present. Please try again later' })
         }, { mappingKey: 'addToWishlist', urlParams: { id: product._id } }, null, config);
     }
 
@@ -46,16 +46,28 @@ export function Product( { product } ) {
             setIsWishlisted(false);
             showNotification({ type: 'WARNING', message: 'Product removed from wishlist' });
         }, err => {
-            showNotification({ type: 'ERROR', message: err })
+            showNotification({ type: 'ERROR', message: 'Unable to process your request at present. Please try again later' })
         }, { mappingKey: 'removeFromWishlist', urlParams: { id: product._id } }, config);
     }
 
     const wishlistClicked = (event) => {
         event.stopPropagation();
             if(isWishlisted)
-            removeFromWishlist();
+                removeFromWishlist();
             else
                 addToWishlist();
+    }
+
+    const addToCart = () => {
+        const config = {
+            headers: { authToken: user._id}
+        }
+        apiCall('post', res => {
+            dispatch( new InitializeCart(res.data.cart));
+            showNotification({ type: 'SUCCESS', message: 'Product added to cart' });
+        }, err => {
+            showNotification({ type: 'ERROR', message: 'Unable to process your request at present. Please try again later' })
+        }, { mappingKey: 'addToCart', urlParams: { id: product._id } }, null, config);
     }
 
     // const showProduct = () => {
@@ -84,7 +96,7 @@ export function Product( { product } ) {
                 <span className={ `pill bg-blue text-white ${styles.rating}` }>4.5 *</span>
                
                 <p className={ styles.price }>Rs {product.price}</p>
-
+                <button className="btn btn--violet btn--inverted" onClick = {addToCart}>Add to Cart</button>
             </div>
         </li>
     )

@@ -14,6 +14,7 @@ import { useAxios } from '../custom-hooks/useAxios';
 import { useAuth } from '../contexts/auth-context';
 import { useStore } from '../contexts/store.context';
 import { InitializeCart, InitializeWishlist } from '../actions';
+import { Cart } from './cart/Cart';
 
 export function Container() {
     const { loading } = useLoader();
@@ -46,13 +47,13 @@ export function Container() {
                     headers: { authToken: user._id }
                 }
                 apiCall('get', (res) => {
-                    dispatch( new InitializeCart(res.data) );
+                    dispatch( new InitializeCart(res.data.cart) );
                 }, (err) => {
                     console.log(err);
                     showNotification({ type: 'ERROR', message: err })
                 }, { mappingKey: 'getCartItems' }, config);
             }
-            // getCart();
+            getCart();
         }
     }, []);
 
@@ -64,9 +65,7 @@ export function Container() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path='/wishlist' element={<Wishlist />} />
-
-
-                {/* <Route path="about" element={<About />} /> */}
+                <Route path='/cart' element={<Cart />} />
             </Routes>
             
             <Loader loading = { loading } />
