@@ -1,4 +1,4 @@
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -76,10 +76,10 @@ export function Product( { product } ) {
 
     return (
         // <li className = { styles.card + " card col-3 col-xl-4 col-lg-4 col-md-6 col-sm-12"} onClick = { () => showProduct() }>
-        <li className = { styles.card + " card col-3 col-xl-4 col-lg-4 col-md-6 col-sm-12"}>
+        <li className = { styles.card + " card col-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 m-0 p-0"}>
 
-            <div className = { `card__img badge__container` }>
-                <img  className={ styles.img } src={product.images[0]} alt="" />
+            <div className = { `card__img badge__container` } style={{ backgroundImage: "url(/loading.png)" }}>
+                <img  className={ styles.img } src={product.images[0]} />
                 <span className={ `badge ${ styles.wishlistIcon }` } onClick = { wishlistClicked }>
                         {
                             isWishlisted? 
@@ -91,11 +91,12 @@ export function Product( { product } ) {
 
             <div className="card__body">
                 
-                <p className="card__lead">{product.title}</p>
-                <p className="card__meta">{ product.company }</p>
-                <span className={ `pill bg-blue text-white ${styles.rating}` }>4.5 *</span>
-               
+                <p className={`card__lead ${ styles.preventTextOverflow }`} >{product.title}</p>
+                <p className={`card__meta ${ styles.preventTextOverflow }`}>{ product.company }</p>
                 <p className={ styles.price }>Rs {product.price}</p>
+
+                <span className={ `pill bg-blue text-white ${styles.rating}` }>4.5 <FaStar fill="white" /> </span>
+               
                 <button className="btn btn--violet btn--inverted" onClick = {addToCart}>Add to Cart</button>
             </div>
         </li>

@@ -9,9 +9,10 @@
 
 .img {
     object-fit: contain;
+    /* background: url('loading.png'); */
     /* width: 100%; */
     /* object-position: center; */
-    height: 200px;
+    /* height: 200px; */
 }
 
 /* .badge {
@@ -24,12 +25,14 @@
     font-size: var(--font-large);
     fill: red;
     cursor: pointer;
+    right: var(--size-point3);
+    top: var(--size-point3);
 }
 
 .card {
     cursor: pointer;
     border: none;
-    padding: var(--size-point5);
+    /* padding: var(--size-point5); */
     margin: var(--size-point7) var(--size-point5);
 }
 
@@ -54,8 +57,14 @@
     font-weight: 700;
 }
 
+.preventTextOverflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
 .rating {
-    font-size: var(--font-point7);
+    font-size: var(--font-small);
 }
 
 .price {
