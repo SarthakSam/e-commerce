@@ -40,6 +40,11 @@ router.post('/:id/wishlisted', isAuthenticated ,async (req, res) => {
     const product = req.product;
     const user = req.user;
     try {
+         const isProductAlreadyWishlisted = !!user.wishlist.find( item => item.equals(product._id) )
+         console.log(user.wishlist, isProductAlreadyWishlisted);
+         if(isProductAlreadyWishlisted) {
+            return res.status(200).json({ message: 'Product already present in wishlist' });
+         } 
          user.wishlist.push(product);
          await user.save();
          res.status(200).json({ message: 'success', product });

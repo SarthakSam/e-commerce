@@ -1,6 +1,6 @@
 .notification__container {
     position: absolute;
-    top: 0;
+    top: 2em;
     right: 0;
     z-index: 4;
     width:  80vw;

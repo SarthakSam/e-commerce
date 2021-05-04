@@ -1,12 +1,14 @@
 import { FaPlus, FaMinus } from 'react-icons/fa';
-
+import axios from 'axios';
+import { getUrl } from '../../../api.config';
+ 
 import { useAxios } from '../../../custom-hooks/useAxios';
 import { useAuth } from '../../../contexts/auth-context';
 import { useNotifications } from '../../../contexts/notifications-context';
 import { useStore } from '../../../contexts/store.context';
 
 import styles from './CartItem.module.css';
-import { AddToCart, RemoveFromCart } from '../../../actions';
+import { AddToCart, AddToWishlist, RemoveFromCart } from '../../../actions';
 
 export function CartItem({ _id: id, title, images, company, price, quantity }) {
     const apiCall = useAxios();
@@ -37,13 +39,6 @@ export function CartItem({ _id: id, title, images, company, price, quantity }) {
     }
 
     const removeFromCart = () => {
-        // const onSuccess = res => {
-        //     dispatch(new RemoveFromCart( res.data.product ));
-        //     showNotification({ type: 'WARNING', message: 'Item removed from cart' });
-        // };
-        // const onFailure = err => {
-        //     showNotification({ type: 'ERROR', message: 'Unable to remove product from cart. Please try after some time' });
-        // };
         const config = {
             headers: { authToken: user._id }
         };
@@ -51,8 +46,28 @@ export function CartItem({ _id: id, title, images, company, price, quantity }) {
             dispatch(new RemoveFromCart( { ...res.data.product, deleteAllQuantity: true } ));
             showNotification({ type: 'WARNING', message: 'Item removed from cart' });
         }, err => {
-            showNotification({ type: 'ERROR', message: 'Unable to decrease quantity. Please try after some time' });
+            showNotification({ type: 'ERROR', message: 'Unable to remove from cart. Please try after some time' });
         }, { mappingKey: 'removeFromCart', urlParams: {id} }, config);
+    }
+
+    const moveToWishlist = async () => {
+        const config = {
+            headers: { authToken: user._id}
+        }
+        const addToWishlistUrl = getUrl({ mappingKey: 'addToWishlist', urlParams: {id} });
+        const removeFromCartUrl = getUrl({ mappingKey: 'removeFromCart', urlParams: {id} });
+
+        const requests = [ axios.delete(removeFromCartUrl, config), axios.post(addToWishlistUrl, null, config) ];
+        try {
+            const resp = await Promise.all(requests);
+            dispatch(new RemoveFromCart( { ...resp[0].data.product, deleteAllQuantity: true } ));
+            if( resp[1].data.product )
+                dispatch(new AddToWishlist( { ...resp[1].data.product} ));
+            showNotification({ type: 'SUCCESS', message: 'Item moved to wishlist' });
+        } catch(err) {
+            showNotification({ type: 'ERROR', message: 'Unable to move to wishlist. Please try after some time' });
+        }
+
     }
 
     const updateCart = (method, onSuccess, onFailure, body) => {
@@ -93,7 +108,7 @@ export function CartItem({ _id: id, title, images, company, price, quantity }) {
                             <button className="btn btn--danger btn--inverted" style={{ margin: '0 0.3em' }} onClick = { removeFromCart }> 
                                 Delete
                             </button>
-                            <button className="btn btn--purple btn--inverted" style={{ margin: '0 0.3em' }}> 
+                            <button className="btn btn--purple btn--inverted" style={{ margin: '0 0.3em' }} onClick = { moveToWishlist }> 
                                 Move to wishlist
                             </button>
                         </div>
