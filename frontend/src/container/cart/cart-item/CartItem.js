@@ -64,10 +64,10 @@ export function CartItem({ _id: id, title, images, company, price, quantity }) {
 
     return (
         <div className={`row card card--horizontal ${ styles.cartItem }`} >
-             <div className="card__img col-3 col-xl-4 col-lg-4 col-sm-4 p-0 m-0">
+             <div className="card__img col-3 col-xl-4 col-lg-4 col-sm-6 col-xs-12 p-0 m-0">
                     <img src={images[0]} alt="" />
             </div>
-            <div className="row col-9 col-xl-8 col-lg-8 col-lg-4 col-sm-8 p-0" style={{ alignItems: 'center'}}>
+            <div className="row col-9 col-xl-8 col-lg-8 col-lg-4 col-sm-6 col-xs-12 p-0" style={{ alignItems: 'center'}}>
 
                 <div className={`col-6 col-xl-6 col-lg-6 col-sm-12 p-0`}>
                     <p className="card__title">{ title }</p>
