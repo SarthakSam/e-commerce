@@ -73,46 +73,52 @@ router.get('/cart', isAuthenticated, async (req, res) => {
     }
 });
 
-router.post('/:id/cart', isAuthenticated, async (req, res) => {
+router.post('/:id/cart', isAuthenticated, getProductMappingFromCart, async (req, res) => {
+    const operation = req.body.operation;
+    let productInCart = req.productInCart;
     const user = req.user;
-    const productToBeAdded = req.product;
+    const productToBeUpdated = req.product;
     try {
-        const cart = (await user.populate('cart').execPopulate()).cart;
-        let productInCart = cart.find( ({ product }) => product.equals(productToBeAdded._id) );
-        if(productInCart) {
-            productInCart.quantity++;
-            await productInCart.save();
+        if( operation === 'add') { 
+            if(productInCart) {
+                productInCart.quantity++;
+                await productInCart.save();
+            } else {
+                productInCart = await ProductQuantity.create({ product: productToBeUpdated });
+                user.cart.push(productInCart);
+                await user.save();
+            }
+            return res.status(201).json({ message: 'Product added to cart', product: productInCart });
         } else {
-            productInCart = await ProductQuantity.create({ product: productToBeAdded });
-            user.cart.push(productInCart);
-            await user.save();
+            if(productInCart.quantity === 1 ) {
+                user.cart = user.cart.filter( product => !product.equals(productToBeUpdated._id) );
+                const promises = [user.save(), productInCart.remove()];
+                await Promise.all(promises);
+            } else {
+                productInCart.quantity--;
+                await productInCart.save();
+            }
+            return res.status(201).json({ message: 'Product removed to cart', product: productInCart });
         }
-        return res.status(201).json({ message: 'Product removed from cart', cart });
     } catch(err) {
         console.log(err);
         return res.status(500).json({ error: err });
     }
 })
 
-router.delete('/:id/cart', isAuthenticated, async (req, res) => {
-    const user = req.user;
-    const productToBeRemoved = req.product;
-    try {
-        const cart = (await user.populate('cart').execPopulate()).cart;
-        const productInCart = cart.find( ({ product }) => product.equals(productToBeRemoved._id) );
-        if(productInCart.quantity === 1) {
+router.delete('/:id/cart', isAuthenticated, getProductMappingFromCart, isAuthenticated, async (req, res) => {
+        const user = req.user;
+        const productToBeRemoved = req.product;
+        const productInCart = req.productInCart;
+        try {
             user.cart = user.cart.filter( product => !product.equals(productToBeRemoved._id) );
             const promises = [user.save(), productInCart.remove()];
             await Promise.all(promises);
-        } else {
-            productInCart.quantity--;
-            await productInCart.save();
+            return res.status(200).json({ message: 'Product removed from cart', product: productInCart });
+        } catch(err) {
+            console.log(err);
+            return res.status(500).json({ error: err });
         }
-        return res.status(201).json({ message: 'Product added to cart', cart });
-    } catch(err) {
-        console.log(err);
-        return res.status(500).json({ error: err });
-    }
 })
 
 
@@ -131,5 +137,18 @@ router.param('id', async (req, res, next, id) => {
     }
 })
 
+async function getProductMappingFromCart(req, res, next) {
+    const user = req.user;
+    const productToBeUpdated = req.product;
+    try {
+        const cart = (await user.populate('cart').execPopulate()).cart;
+        const productInCart = cart.find( ({ product }) => product.equals(productToBeUpdated._id) );
+        req.productInCart = productInCart;
+        next();
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+}
 
 module.exports = router;

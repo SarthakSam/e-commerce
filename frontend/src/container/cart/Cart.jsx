@@ -6,9 +6,11 @@ export function Cart() {
     return (<div className={`row`}>
         <div className="col-8 col-md-12">
             <h1>Cart</h1>
-            <ul>
+            <ul style={{ listStyle: 'none' }}>
                 {
-                    cart.map( cartItem => <CartItem { ...cartItem.product } quantity = { cartItem.quantity } /> )
+                    cart.map( cartItem => <li key={cartItem._id }>
+                            <CartItem { ...cartItem.product } quantity = { cartItem.quantity } />
+                        </li> )
                 }
             </ul>
         </div>

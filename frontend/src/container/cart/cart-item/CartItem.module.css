@@ -12,3 +12,10 @@
     justify-content: space-between;
     align-items: flex-end;
 }
+
+.cartItem {
+    margin: var(--size-1) 0;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px; */
+}

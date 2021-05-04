@@ -7,7 +7,7 @@ import styles from './Product.module.css';
 import { useStore } from '../../../contexts/store.context';
 import { useAuth } from '../../../contexts/auth-context';
 import { useAxios } from '../../../custom-hooks/useAxios';
-import { RemoveFromWishlist, AddToWishlist, InitializeCart } from '../../../actions';
+import { RemoveFromWishlist, AddToWishlist, AddToCart } from '../../../actions';
 import { useNotifications } from '../../../contexts/notifications-context';
 
 export function Product( { product } ) {
@@ -63,11 +63,11 @@ export function Product( { product } ) {
             headers: { authToken: user._id}
         }
         apiCall('post', res => {
-            dispatch( new InitializeCart(res.data.cart));
+            dispatch( new AddToCart(res.data.product));
             showNotification({ type: 'SUCCESS', message: 'Product added to cart' });
         }, err => {
             showNotification({ type: 'ERROR', message: 'Unable to process your request at present. Please try again later' })
-        }, { mappingKey: 'addToCart', urlParams: { id: product._id } }, null, config);
+        }, { mappingKey: 'addToCart', urlParams: { id: product._id } }, { operation: 'add' }, config);
     }
 
     // const showProduct = () => {
