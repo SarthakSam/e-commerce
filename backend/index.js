@@ -4,6 +4,7 @@ const express           = require('express'),
       cors              = require('cors'),
       productsRouter    = require('./apis/products.api'),
       usersRouter       = require('./apis/user.api'),
+      categoriesRouter  = require('./apis/categories.api'),
       seedProducts      = require('./seeds');
 
 const PORT = process.env.PORT || 3001;
@@ -22,6 +23,7 @@ app.use(express.json());
 
 app.use('/', usersRouter);
 app.use('/products', productsRouter);
+app.use('/categories', categoriesRouter);
 
 app.get('/', (req, res) => {
     res.send("Ecommerce");
