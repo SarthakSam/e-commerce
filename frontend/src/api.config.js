@@ -7,7 +7,8 @@ const endpoints = {
     'removeFromWishlist': `/products/:id/wishlisted`,
     'getCartItems': `/products/cart`,
     'addToCart': `/products/:id/cart`,
-    'removeFromCart': `/products/:id/cart`
+    'removeFromCart': `/products/:id/cart`,
+    'getProductDetails': `/products/:id`
 }
 
 export const getUrl = ({ mappingKey, urlParams = {} }) => {

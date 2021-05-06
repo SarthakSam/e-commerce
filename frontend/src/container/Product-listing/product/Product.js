@@ -11,7 +11,7 @@ import { RemoveFromWishlist, AddToWishlist, AddToCart } from '../../../actions';
 import { useNotifications } from '../../../contexts/notifications-context';
 
 export function Product( { product } ) {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const { state: { wishlist },dispatch } = useStore();
     const [isWishlisted, setIsWishlisted] = useState(false);
     const apiCall = useAxios();
@@ -70,13 +70,13 @@ export function Product( { product } ) {
         }, { mappingKey: 'addToCart', urlParams: { id: product._id } }, { operation: 'add' }, config);
     }
 
-    // const showProduct = () => {
-    //     navigate(`/product/${product.id}`);
-    // }
+    const showProduct = () => {
+        navigate(`/products/${product._id}`);
+    }
 
     return (
         // <li className = { styles.card + " card col-3 col-xl-4 col-lg-4 col-md-6 col-sm-12"} onClick = { () => showProduct() }>
-        <li className = { styles.card + " card col-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 m-0 p-0"}>
+        <li className = { styles.card + " card col-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 m-0 p-0"} onClick = { showProduct }>
 
             <div className = { `card__img badge__container` } style={{ backgroundImage: "url(/loading.png)" }}>
                 <img  className={ styles.img } src={product.images[0]} />

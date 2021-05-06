@@ -15,6 +15,7 @@ import { useAuth } from '../contexts/auth-context';
 import { useStore } from '../contexts/store.context';
 import { InitializeCart, InitializeWishlist } from '../actions';
 import { Cart } from './cart/Cart';
+import { ProductDetails } from './product-details/ProductDetails';
 
 export function Container() {
     const { loading } = useLoader();
@@ -62,6 +63,7 @@ export function Container() {
             <Routes>
                 <Route path="/" element={<ProductListing />} />
                 <Route path="/products" element={<ProductListing />} />
+                <Route path="/products/:id" element={<ProductDetails />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path='/wishlist' element={<Wishlist />} />
@@ -73,3 +75,6 @@ export function Container() {
         </div>
     )
 }
+
+
+// https://dribbble.com/shots/15596100-Arkent-Landing-Page-Header/attachments/7383254?mode=media

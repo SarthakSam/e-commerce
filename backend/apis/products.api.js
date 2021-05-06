@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
          const products = await Product.find({}).lean();
          res.status(200).json({ message: 'success', products });
     } catch(err) {
-        console.log(er);
+        console.log(err);
          res.status(500).json({ error: err });
     }
 });
