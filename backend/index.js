@@ -10,8 +10,9 @@ const express           = require('express'),
 const PORT = process.env.PORT || 3001;
 
 const localDb = 'mongodb://localhost:27017/ecommerce';
+const productionDb = `mongodb+srv://${ process.env.DBUSER }:${ process.env.DBPASSWORD }@mycluster.dxrov.mongodb.net/ecommerce?retryWrites=true&w=majority`
 
-mongoose.connect(localDb, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(productionDb, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {
     console.log("DB connected")
     // seedProducts();

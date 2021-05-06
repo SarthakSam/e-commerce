@@ -125,6 +125,10 @@ router.delete('/:id/cart', isAuthenticated, getProductMappingFromCart, isAuthent
         }
 })
 
+router.get('/:id', async (req, res) => {
+    const product = req.product;
+    res.status(200).json({ message: 'success', product });
+});
 
 router.param('id', async (req, res, next, id) => {
     const productId = req.params.id;
