@@ -30,6 +30,11 @@ app.get('/', (req, res) => {
     res.send("Ecommerce");
 });
 
+app.get('/seedProducts', (req, res) => {
+    seedProducts();
+    res.status(200).json({ message: 'Success' });
+});
+
 app.listen(PORT, (err) => {
     if(err) {
         console.log(err);
