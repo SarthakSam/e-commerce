@@ -1,0 +1,19 @@
+.wallet {
+    background-color: rgba(200, 200, 200, 0.1);
+    padding: 1em 0.8em;
+    margin-top: 3.4em;
+    border-radius: 0.5em;
+}
+
+.walletInfo {
+    margin: 0.5em 0;
+}
+
+.walletInfo > span, strong {
+    display: inline-block;
+    width: 50%;
+}
+
+.amountDetails {
+    text-align: right;
+}

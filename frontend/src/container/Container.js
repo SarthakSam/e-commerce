@@ -75,6 +75,3 @@ export function Container() {
         </div>
     )
 }
-
-
-// https://dribbble.com/shots/15596100-Arkent-Landing-Page-Header/attachments/7383254?mode=media

@@ -52,13 +52,22 @@ export function Product( { product } ) {
 
     const wishlistClicked = (event) => {
         event.stopPropagation();
-            if(isWishlisted)
-                removeFromWishlist();
-            else
-                addToWishlist();
+        if(!user) {
+            showNotification({ type: 'ERROR', message: 'Please signin to continue' });
+            return;
+        }
+        if(isWishlisted)
+            removeFromWishlist();
+        else
+            addToWishlist();
     }
 
-    const addToCart = () => {
+    const addToCart = (event) => {
+        event.stopPropagation();
+        if(!user) {
+            showNotification({ type: 'ERROR', message: 'Please signin to continue' });
+            return;
+        }
         const config = {
             headers: { authToken: user._id}
         }

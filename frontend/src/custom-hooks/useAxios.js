@@ -2,13 +2,12 @@ import { useLoader } from "../contexts/loader-context";
 import axios from 'axios';
 import { getUrl } from '../api.config';
 
-// const baseURL = "https://stream-itt.herokuapp.com";
+const baseURL = "https://football-for-all.herokuapp.com";
 
 export function useAxios() {
     const { setLoading } = useLoader();
 
     const apiCall = async (method, successCb, failureCb, urlObj, ...rest) => {
-        // url = baseURL + url;
         const url = getUrl(urlObj);
         try {
             setLoading(true);

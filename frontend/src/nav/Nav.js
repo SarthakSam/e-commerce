@@ -25,7 +25,7 @@ export function Nav() {
             <div className={ `nav__content ${ styles.nav__content }` }>
                     <ul className="nav__list">
                         <li className="nav__item">
-                            <NavLink to="/categories" activeClassName={styles.active}>Categories</NavLink>
+                            {/* <NavLink to="/categories" activeClassName={styles.active}>Categories</NavLink> */}
                         </li>
                     </ul>
     

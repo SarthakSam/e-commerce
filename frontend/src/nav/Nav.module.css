@@ -16,6 +16,7 @@
 .active {
     color: var(--color-blue);
     background-color: var(--app-primary-color);
+    padding: 0.3em;
 }
 
 .nav.customNav .nav__content {
